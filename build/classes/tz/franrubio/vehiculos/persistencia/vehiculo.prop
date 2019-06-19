@@ -1,0 +1,5 @@
+port=3306
+host=localhost
+bbdd= bbdd_gestmotor
+usu=USRJAVA2019
+psw=PWD2019ORACLE
