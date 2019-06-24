@@ -5,33 +5,30 @@
  */
 package tz.franrubio.vehiculos.ui;
 
-
+import com.convertapi.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.FontUnderline;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.*;
 import tz.franrubio.vehiculos.model.GestorMarca;
 import tz.franrubio.vehiculos.model.GestorModelo;
 import tz.franrubio.vehiculos.model.Modelo;
 import tz.franrubio.vehiculos.persistencia.ConsultaSQL;
 
 /**
- *
- * @author xXx
+ * Clase JPConsulta
+ * 
+ * 
+ * @author Francisco J. Rubio
  */
 public class JPConsulta extends javax.swing.JPanel {
 
@@ -40,17 +37,19 @@ public class JPConsulta extends javax.swing.JPanel {
      */
     private GestorModelo gmC = new GestorModelo();
     private GestorMarca gmaC = new GestorMarca();
+    //Constantes.
     private static final String CONS_MENG1 = "Debe elegir algun criterio de consulta";
     private static final String CONS_MENG2 = "Exportada Consulta a Hoja de Cálculo de Excel.";
-    
+    private static final String CONS_MENG3 = "Exportada Consulta a PDF.";
+    private static final String CONS_SECRETPALABRA= "cD9r4iA6TgyS33L0";
+    private static final String CONS_MENG4 = "Conexión de Internet Interrupida";
+    private static final String CONS_MENG5 = "Exportación en PDF cancelada.";
     public JPConsulta() {
         initComponents();
 
         jcbMarcas.removeAllItems();
         jcbMarcas.setEnabled(false);
-        //DefaultTableModel JTConsulta = new ConsultaTableModel();
-        //ConsultaTableModel ctm = new ConsultaTableModel(consultas, nombrescampos, tipos);
-        ((DefaultTableModel)jTConsulta.getModel()).setRowCount(0);
+        ((DefaultTableModel) jTConsulta.getModel()).setRowCount(0);
 
     }
 
@@ -66,10 +65,11 @@ public class JPConsulta extends javax.swing.JPanel {
         jPanelSeleccion = new javax.swing.JPanel();
         jcbMarcas = new javax.swing.JComboBox<>();
         jbBuscar = new javax.swing.JButton();
-        jcbMarca = new javax.swing.JCheckBox();
+        jrbMarca = new javax.swing.JRadioButton();
         jPanelExportacion = new javax.swing.JPanel();
         jbExcel = new javax.swing.JButton();
         bProgreso01 = new javax.swing.JProgressBar();
+        jbPdf = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTConsulta = new javax.swing.JTable();
 
@@ -90,10 +90,10 @@ public class JPConsulta extends javax.swing.JPanel {
             }
         });
 
-        jcbMarca.setText("Marca");
-        jcbMarca.addActionListener(new java.awt.event.ActionListener() {
+        jrbMarca.setText("Marca");
+        jrbMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbMarcaActionPerformed(evt);
+                jrbMarcaActionPerformed(evt);
             }
         });
 
@@ -103,13 +103,13 @@ public class JPConsulta extends javax.swing.JPanel {
             jPanelSeleccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSeleccionLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(jcbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanelSeleccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSeleccionLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jbBuscar)
                         .addGap(34, 34, 34))
                     .addGroup(jPanelSeleccionLayout.createSequentialGroup()
+                        .addComponent(jrbMarca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jcbMarcas, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(380, Short.MAX_VALUE))))
@@ -120,7 +120,7 @@ public class JPConsulta extends javax.swing.JPanel {
                 .addGap(21, 21, 21)
                 .addGroup(jPanelSeleccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jcbMarcas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcbMarca))
+                    .addComponent(jrbMarca))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbBuscar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -131,7 +131,7 @@ public class JPConsulta extends javax.swing.JPanel {
         jPanelExportacion.setPreferredSize(new java.awt.Dimension(515, 80));
 
         jbExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tz/franrubio/vehiculos/icons/iconexcel.png"))); // NOI18N
-        jbExcel.setToolTipText("Exporta la busqueda a un documento Excel");
+        jbExcel.setToolTipText("Exporta la busqueda a un documento PDF");
         jbExcel.setBorder(null);
         jbExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,22 +141,35 @@ public class JPConsulta extends javax.swing.JPanel {
 
         bProgreso01.setStringPainted(true);
 
+        jbPdf.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tz/franrubio/vehiculos/icons/iconpdf.png"))); // NOI18N
+        jbPdf.setToolTipText("Exporta la busqueda a un documento Excel");
+        jbPdf.setBorder(null);
+        jbPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPdfActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelExportacionLayout = new javax.swing.GroupLayout(jPanelExportacion);
         jPanelExportacion.setLayout(jPanelExportacionLayout);
         jPanelExportacionLayout.setHorizontalGroup(
             jPanelExportacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(bProgreso01, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
             .addGroup(jPanelExportacionLayout.createSequentialGroup()
-                .addGap(267, 267, 267)
+                .addGap(162, 162, 162)
                 .addComponent(jbExcel)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbPdf)
+                .addGap(149, 149, 149))
         );
         jPanelExportacionLayout.setVerticalGroup(
             jPanelExportacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelExportacionLayout.createSequentialGroup()
                 .addComponent(bProgreso01, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelExportacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -176,26 +189,13 @@ public class JPConsulta extends javax.swing.JPanel {
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jbExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcelActionPerformed
-        //Creamos un Hilo para la barra de Progreso.
-        new Thread( new Runnable() {
-            @Override
-            public void run() {
-                CrearExcel();
-            }
-
-        }).start();
-
-
-    }//GEN-LAST:event_jbExcelActionPerformed
     /**
      * Este evento genera la consulta y carga el JTable.
      *
      * @param evt
      */
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-        if (jcbMarca.isSelected()) {
+        if (jrbMarca.isSelected()) {
             int _indexSelec = jcbMarcas.getSelectedIndex();
             int _idMarca = ((MarcasDefaultComboxModel) jcbMarcas.getModel()).getIdMarca(_indexSelec);
             ConsultaSQL consulta = null;
@@ -226,16 +226,48 @@ public class JPConsulta extends javax.swing.JPanel {
             showDialog(CONS_MENG1);
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
-    /**
-     * Cuando activamos este evento indicamos que queremos relizar una consulta
-     * por marcas. Cargamos el listado de marcas en el ComboBox y lo activamos
-     * para poder realizar la consulta.
-     *
-     * @param evt
-     */
-    private void jcbMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMarcaActionPerformed
+
+    private void jbExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcelActionPerformed
+        //Creo un Hilo para la Exportacion del fichero Excel.
+        boolean varPDF = false;
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CrearExcel(varPDF);
+                } catch (InterruptedException ex) {
+                    showDialog(CONS_MENG4);
+                } catch(ExecutionException ex){
+                    showDialog(CONS_MENG5);
+                }
+            }
+
+        });
+        t.start();
+
+    }//GEN-LAST:event_jbExcelActionPerformed
+
+    private void jbPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPdfActionPerformed
+        boolean varPDF = true;
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CrearExcel(varPDF);
+                } catch (InterruptedException ex) {
+                    showDialog(CONS_MENG4);
+                } catch(ExecutionException ex){
+                    showDialog(CONS_MENG5);
+                }
+            }
+
+        });
+        t2.start();
+    }//GEN-LAST:event_jbPdfActionPerformed
+
+    private void jrbMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbMarcaActionPerformed
         try {
-            if (jcbMarca.isSelected()) {
+            if (jrbMarca.isSelected()) {
                 jcbMarcas.setModel(new MarcasDefaultComboxModel(gmaC.getAllMarcas()));
                 jcbMarcas.setSelectedIndex(0);
                 jcbMarcas.setEnabled(true);
@@ -248,7 +280,7 @@ public class JPConsulta extends javax.swing.JPanel {
         } catch (Exception ex) {
             showDialog(ex.getMessage());
         }
-    }//GEN-LAST:event_jcbMarcaActionPerformed
+    }//GEN-LAST:event_jrbMarcaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -259,15 +291,16 @@ public class JPConsulta extends javax.swing.JPanel {
     private javax.swing.JTable jTConsulta;
     private javax.swing.JButton jbBuscar;
     private javax.swing.JButton jbExcel;
-    private javax.swing.JCheckBox jcbMarca;
+    private javax.swing.JButton jbPdf;
     private javax.swing.JComboBox<String> jcbMarcas;
+    private javax.swing.JRadioButton jrbMarca;
     // End of variables declaration//GEN-END:variables
 
     private void showDialog(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
 
-    private void CrearExcel() {
+    private void CrearExcel(boolean bPDF) throws InterruptedException, ExecutionException {
         //Instanciamos el libro de Excel (.xlsx)
         XSSFWorkbook libroexcel = new XSSFWorkbook();
         //Instanciamos un hoja del libro.
@@ -332,7 +365,7 @@ public class JPConsulta extends javax.swing.JPanel {
             fila = hoja.createRow((l + i + 1));
             for (int j = 0; j < jTConsulta.getColumnCount() - 1; j++) {
                 //Creo este procedimiento para evitar que coga los valores de la segunda columna del 
-                //TabletModel y de paso convierto los valores de la columna primera, cuarta y quita
+                //TabletModel y de paso convierto los valores de la columna primera, cuarta y quinta
                 //en númerico, ya que en el TableModel los puse todos a String para futuras consultas.
                 k = j;
 
@@ -354,8 +387,12 @@ public class JPConsulta extends javax.swing.JPanel {
             }
 
         }
-        bProgreso01.setValue(0);
-
+        for (int i = 0; i < 5; i++) {
+            hoja.autoSizeColumn(i);
+        }
+        if (bPDF == false) {
+            bProgreso01.setValue(0);
+        }
         try {
             LocalDateTime fechaHora = LocalDateTime.now();
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
@@ -368,15 +405,28 @@ public class JPConsulta extends javax.swing.JPanel {
                 carpeta.mkdir();
             }
             String rutafichero = carpetaGuardar + System.getProperty("file.separator") + "Informe" + fechaExcel + ".xlsx";
-            FileOutputStream fichero = new FileOutputStream(rutafichero);
-            libroexcel.write(fichero);
-            fichero.close();
-            showDialog(CONS_MENG2);
+            FileOutputStream ficheroexcel = new FileOutputStream(rutafichero);
+            libroexcel.write(ficheroexcel);
+
+            ficheroexcel.close();
+            if (bPDF == true) {
+                //Conversor Online de fichero excel a pdf
+                Config.setDefaultSecret(CONS_SECRETPALABRA);
+                ConvertApi.convert("xlsx", "pdf",
+                        new Param("File", Paths.get(rutafichero))
+                ).get().saveFilesSync(Paths.get(carpetaGuardar));
+                //Borramos el fichero de excel que ya no nos hace falta
+                File ficheroexcel_pdf = new File(rutafichero);
+                ficheroexcel_pdf.delete();
+                showDialog(CONS_MENG3);
+                bProgreso01.setValue(0);
+            } else {
+                showDialog(CONS_MENG2);
+            }
 
         } catch (IOException ex) {
             showDialog(ex.getMessage());
-
         }
-    }
 
+    }
 }

@@ -40,14 +40,14 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                  <Component id="jcbMarca" min="-2" pref="55" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="jbBuscar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jrbMarca" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jcbMarcas" min="-2" pref="132" max="-2" attributes="0"/>
                           <EmptySpace pref="380" max="32767" attributes="0"/>
@@ -62,7 +62,7 @@
                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jcbMarcas" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jcbMarca" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jrbMarca" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jbBuscar" min="-2" max="-2" attributes="0"/>
@@ -99,12 +99,12 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jcbMarca">
+        <Component class="javax.swing.JRadioButton" name="jrbMarca">
           <Properties>
             <Property name="text" type="java.lang.String" value="Marca"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jcbMarcaActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbMarcaActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -126,9 +126,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="bProgreso01" alignment="0" pref="600" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="267" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
                   <Component id="jbExcel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jbPdf" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -137,7 +139,10 @@
               <Group type="102" attributes="0">
                   <Component id="bProgreso01" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jbExcel" min="-2" pref="53" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jbExcel" min="-2" pref="53" max="-2" attributes="0"/>
+                      <Component id="jbPdf" min="-2" pref="53" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -149,7 +154,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/tz/franrubio/vehiculos/icons/iconexcel.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Exporta la busqueda a un documento Excel"/>
+            <Property name="toolTipText" type="java.lang.String" value="Exporta la busqueda a un documento PDF"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
@@ -162,6 +167,20 @@
           <Properties>
             <Property name="stringPainted" type="boolean" value="true"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="jbPdf">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/tz/franrubio/vehiculos/icons/iconpdf.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Exporta la busqueda a un documento Excel"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbPdfActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

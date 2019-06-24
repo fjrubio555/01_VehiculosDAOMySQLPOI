@@ -1,0 +1,39 @@
+//                FileInputStream ficheroexcel_pdf = new FileInputStream(new File(rutafichero));
+//                XSSFWorkbook libroexcel_pdf = new XSSFWorkbook(rutafichero);
+//                XSSFSheet hoja_pdf = libroexcel_pdf.getSheetAt(0);
+//                //Actuamos sore las filas
+//                Iterator<Row> filaIterator = hoja_pdf.iterator();
+//                //Creamos un documento de PDF
+//                Document documentoPDF = new Document();
+//                PdfWriter.getInstance(documentoPDF, new FileOutputStream(carpetaGuardar + "Informe" + fechaExcel + ".pdf"));
+//                documentoPDF.open();
+//                //En a hoja de Excel tenemos 5 columnas, creamos una tabla PDF con cinco columns
+//                PdfPTable tabla_pdf = new PdfPTable(5);
+//                PdfPCell celda_tablapdf;
+//                while (filaIterator.hasNext()) {
+//                    Row fila_pdf = filaIterator.next();
+//                    Iterator<Cell> celdaIterator = fila_pdf.cellIterator();
+//                    while (celdaIterator.hasNext()) {
+//                        Cell celda_pdf = celdaIterator.next();
+//                        switch (celda_pdf.getCellType()) {
+//                            case STRING:
+//                                celda_tablapdf = new PdfPCell(new Phrase(celda_pdf.getStringCellValue()));
+//                                if (fila_pdf.getRowNum()>4){
+//                                    
+//                                  tabla_pdf.addCell(celda_tablapdf);
+//                                }else {
+//                                    
+//                                  documentoPDF.add(celda_tablapdf);
+//                                }
+//                                break;
+//                        }
+//
+//                    }
+//                }
+//                documentoPDF.add(tabla_pdf);
+//                documentoPDF.close();
+//                ficheroexcel_pdf.close();
+                //ExcelDocument  ficheroexcel_pdf = new ExcelDocument  (rutafichero,new ExcelConvertOptions());
+//               
+//                com.aspose.cells.Workbook libroexcel_pdf = new com.aspose.cells.Workbook(rutafichero);
+//                libroexcel_pdf.save(carpetaGuardar + "Informe" + fechaExcel + ".pdf", FileFormatType.PDF);
