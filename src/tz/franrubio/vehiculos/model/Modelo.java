@@ -4,17 +4,18 @@
 package tz.franrubio.vehiculos.model;
 
 /**
+ * Clase Modelo.
  *
  * @author Francisco J. Rubio
  */
 public class Modelo {
+
     private int id;
     private int idMarca;
     private String nombreModelo;
     private float consumoModelo;
     private float emisionesModelo;
     private String claEner;
-    
 
     public Modelo(int id, int idMarca, String nombreModelo, float consumoModelo, float emisionesModelo, String claEner) {
         this.id = id;
@@ -73,7 +74,4 @@ public class Modelo {
         this.claEner = claEner;
     }
 
-    
-    
-    
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tz.franrubio.vehiculos.ui;
 
 import com.convertapi.*;
@@ -10,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,11 +19,14 @@ import tz.franrubio.vehiculos.model.GestorMarca;
 import tz.franrubio.vehiculos.model.GestorModelo;
 import tz.franrubio.vehiculos.model.Modelo;
 import tz.franrubio.vehiculos.persistencia.ConsultaSQL;
+import static tz.franrubio.vehiculos.persistencia.ModeloDAOMySQLImpl.EXC_MENSG1;
+import static tz.franrubio.vehiculos.persistencia.ModeloDAOMySQLImpl.ErroresBasedatos;
 
 /**
  * Clase JPConsulta
- * 
- * 
+ *
+ * Esta clase muestra la consulta Sql.
+ *
  * @author Francisco J. Rubio
  */
 public class JPConsulta extends javax.swing.JPanel {
@@ -37,18 +36,23 @@ public class JPConsulta extends javax.swing.JPanel {
      */
     private GestorModelo gmC = new GestorModelo();
     private GestorMarca gmaC = new GestorMarca();
-    //Constantes.
+    //Constantes de mensaje de Errores..
     private static final String CONS_MENG1 = "Debe elegir algun criterio de consulta";
     private static final String CONS_MENG2 = "Exportada Consulta a Hoja de Cálculo de Excel.";
     private static final String CONS_MENG3 = "Exportada Consulta a PDF.";
-    private static final String CONS_SECRETPALABRA= "cD9r4iA6TgyS33L0";
+    private static final String CONS_SECRETPALABRA = "cD9r4iA6TgyS33L0";
     private static final String CONS_MENG4 = "Conexión de Internet Interrupida";
     private static final String CONS_MENG5 = "Exportación en PDF cancelada.";
+    private static final String CONS_MENG6 = "Error al acceder al fichero.";
+    private static final String CONS_MENG7 = "Debe seleccionar alguna Marca.";
+
     public JPConsulta() {
         initComponents();
-
+        //Limpia todo componentes del panel.
         jcbMarcas.removeAllItems();
         jcbMarcas.setEnabled(false);
+        jbExcel.setEnabled(false);
+        jbPdf.setEnabled(false);
         ((DefaultTableModel) jTConsulta.getModel()).setRowCount(0);
 
     }
@@ -190,6 +194,8 @@ public class JPConsulta extends javax.swing.JPanel {
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     /**
+     * Método jbBuscarActionPerformed.
+     *
      * Este evento genera la consulta y carga el JTable.
      *
      * @param evt
@@ -215,56 +221,71 @@ public class JPConsulta extends javax.swing.JPanel {
                 String[] nombrecampos = {"Id", "Marca", "Modelo", "Consumo", "Eficiencia", "Clasif. Energética"};
                 ConsultaTableModel ctm = new ConsultaTableModel(consultas, nombrecampos, tipos);
                 jTConsulta.setModel(ctm);
+                jbExcel.setEnabled(true);
+                jbPdf.setEnabled(true);
+
+            } catch (SQLException ex) {
+
+                try {
+                    ErroresBasedatos(ex);
+                } catch (Exception ex1) {
+                    showDialog(ex1.getMessage());
+                }
 
             } catch (Exception ex) {
                 ex.printStackTrace();
                 showDialog(ex.getMessage());
-
             }
         } else {
 
             showDialog(CONS_MENG1);
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
-
+    /**
+     * Método jbExcelActionPerformed.
+     *
+     * Se lanza un hilo diferente para generar un documento de Excel.
+     *
+     * @param evt
+     */
     private void jbExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcelActionPerformed
         //Creo un Hilo para la Exportacion del fichero Excel.
         boolean varPDF = false;
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    CrearExcel(varPDF);
-                } catch (InterruptedException ex) {
-                    showDialog(CONS_MENG4);
-                } catch(ExecutionException ex){
-                    showDialog(CONS_MENG5);
-                }
+                LanzarInforme(varPDF);
             }
-
         });
         t.start();
 
     }//GEN-LAST:event_jbExcelActionPerformed
-
+    /**
+     * Método jbPdfActionPerformed.
+     *
+     * Se lanza un hilo diferente para convertir un documento Excel a PDF,
+     * utilizando un servicio Web.
+     *
+     * @param evt
+     */
     private void jbPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPdfActionPerformed
         boolean varPDF = true;
         Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    CrearExcel(varPDF);
-                } catch (InterruptedException ex) {
-                    showDialog(CONS_MENG4);
-                } catch(ExecutionException ex){
-                    showDialog(CONS_MENG5);
-                }
+                LanzarInforme(varPDF);
             }
-
         });
         t2.start();
     }//GEN-LAST:event_jbPdfActionPerformed
-
+    /**
+     * Método jrbMarcaActionPerformed
+     *
+     * Cuando se activa este componente se rellena el combox Marcas con todas
+     * las marcas de la tabla Marcas de la base de datos.
+     *
+     * @param evt
+     */
     private void jrbMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbMarcaActionPerformed
         try {
             if (jrbMarca.isSelected()) {
@@ -278,7 +299,7 @@ public class JPConsulta extends javax.swing.JPanel {
 
             jTConsulta.removeAll();
         } catch (Exception ex) {
-            showDialog(ex.getMessage());
+            showDialog(EXC_MENSG1);
         }
     }//GEN-LAST:event_jrbMarcaActionPerformed
 
@@ -295,16 +316,34 @@ public class JPConsulta extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jcbMarcas;
     private javax.swing.JRadioButton jrbMarca;
     // End of variables declaration//GEN-END:variables
-
+    /**
+     * Metodo ShowDialog.
+     *
+     * Saca una ventana con un mesnaje de texto.
+     *
+     * @param mensaje
+     */
     private void showDialog(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
 
+    /**
+     * Método CrearExcel.
+     *
+     * Se crea una hoja de calculo Excel. Si el parametro bPDF es verdadero ese
+     * documento es convertido en PDF, sino se guardara como Excel.
+     *
+     * @param bPDF Verdadero o falso.
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
     private void CrearExcel(boolean bPDF) throws InterruptedException, ExecutionException {
         //Instanciamos el libro de Excel (.xlsx)
         XSSFWorkbook libroexcel = new XSSFWorkbook();
         //Instanciamos un hoja del libro.
         XSSFSheet hoja = libroexcel.createSheet();
+        hoja.getPrintSetup().setLandscape(true);
+        hoja.getPrintSetup().setPaperSize(PaperSize.A3_PAPER);
         libroexcel.setSheetName(libroexcel.getSheetIndex(hoja), jcbMarcas.getSelectedItem().toString());
         //Instanciamos una fila. 
         XSSFRow fila = hoja.createRow(0);
@@ -321,9 +360,9 @@ public class JPConsulta extends javax.swing.JPanel {
         XSSFCellStyle estilo1 = libroexcel.createCellStyle();
         estilo1.setFont(letra);
         XSSFCell celda = fila.createCell(0);
-        celda.setCellValue(String.valueOf(jcbMarcas.getSelectedItem()));
+        celda.setCellValue(String.valueOf(jcbMarcas.getSelectedItem().toString().toUpperCase()));
         celda.setCellStyle(estilo1);
-
+        //Un nuevo estilo.
         XSSFFont letra2 = libroexcel.createFont();
         letra2.setFontHeightInPoints((short) 10);
         letra2.setBold(true);
@@ -333,8 +372,14 @@ public class JPConsulta extends javax.swing.JPanel {
         XSSFCellStyle estilo2 = libroexcel.createCellStyle();
         estilo2.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
         estilo2.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        estilo2.setAlignment(HorizontalAlignment.CENTER);
         estilo2.setFont(letra2);
-
+        XSSFCellStyle estilo3 = libroexcel.createCellStyle();
+        estilo3.setAlignment(HorizontalAlignment.CENTER);
+        XSSFCellStyle estilo4 = libroexcel.createCellStyle();
+        estilo4.setAlignment(HorizontalAlignment.CENTER);
+        estilo4.setDataFormat(libroexcel.createDataFormat().getFormat("0.00"));
+        //Fila 3 se crean las cabeceras de la tabla con el estilo2.
         fila = hoja.createRow(2);
         XSSFCell celda1 = fila.createCell(0);
         celda1.setCellValue("ID");
@@ -356,13 +401,13 @@ public class JPConsulta extends javax.swing.JPanel {
         bProgreso01.setMaximum(jTConsulta.getRowCount());
         XSSFRow filas;
         int k = 0;
-        int l = 3;
+        int q = 3;
         for (int i = 0; i < jTConsulta.getRowCount(); i++) {
 
             jTConsulta.setRowSelectionInterval(i, i);
             bProgreso01.setValue(i + 1);
 
-            fila = hoja.createRow((l + i + 1));
+            fila = hoja.createRow((q + i + 1));
             for (int j = 0; j < jTConsulta.getColumnCount() - 1; j++) {
                 //Creo este procedimiento para evitar que coga los valores de la segunda columna del 
                 //TabletModel y de paso convierto los valores de la columna primera, cuarta y quinta
@@ -377,11 +422,16 @@ public class JPConsulta extends javax.swing.JPanel {
                 if (j == 0) {
                     int valor = Integer.valueOf(jTConsulta.getValueAt(i, k).toString());
                     celda6.setCellValue(valor);
+                    celda6.setCellStyle(estilo3);
 
                 }
                 if (k == 3 || k == 4) {
                     float valor2 = Float.valueOf(jTConsulta.getValueAt(i, k).toString());
                     celda6.setCellValue(valor2);
+                    celda6.setCellStyle(estilo4);
+                }
+                if (k == 5) {
+                    celda6.setCellStyle(estilo3);
                 }
 
             }
@@ -425,8 +475,27 @@ public class JPConsulta extends javax.swing.JPanel {
             }
 
         } catch (IOException ex) {
-            showDialog(ex.getMessage());
+            showDialog(CONS_MENG6);
         }
 
+    }
+
+    /**
+     * Método LanzarInforme.
+     *
+     * Exporta o un documento Excel o Pdf.
+     *
+     * @param varPDF Verdadero o falso
+     */
+    private void LanzarInforme(boolean varPDF) {
+        try {
+            CrearExcel(varPDF);
+        } catch (InterruptedException ex) {
+            showDialog(CONS_MENG4);
+        } catch (ExecutionException ex) {
+            showDialog(CONS_MENG5);
+        } catch (NullPointerException ex) {
+            showDialog(CONS_MENG7);
+        }
     }
 }

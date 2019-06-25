@@ -6,11 +6,16 @@
 package tz.franrubio.vehiculos.persistencia;
 
 /**
+ * Clase MarcaDAOFactory
  *
- * @author xXx
+ * Esta clase nos indica que tipo de implementación vamos a utilizar en este
+ * caso va ser una base de datos.
+ *
+ * @author Francisco J. Rubio
  */
 public class MarcaDAOFactory {
-    public MarcaDAO getMarcaDAO(){
+
+    public MarcaDAO getMarcaDAO() {
         return new MarcaDAOMySQLImpl();
     }
 }

@@ -1,8 +1,5 @@
 package tz.franrubio.vehiculos.ui;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -15,8 +12,10 @@ import tz.franrubio.vehiculos.model.Modelo;
 import static tz.franrubio.vehiculos.persistencia.ModeloDAOMySQLImpl.*;
 
 /**
- * Panel JPModelo. Este Panel muestra los módelos de los vehiculos, a la vez que
- * se puede añadir uno nuevo, borrar, actualizar y hacer determinadas busquedas.
+ * Panel JPModelo.
+ *
+ * Este Panel muestra los módelos de los vehiculos, a la vez que se puede añadir
+ * uno nuevo, borrar, actualizar y hacer determinadas busquedas.
  *
  * @author Francisco J. Rubio
  */
@@ -27,6 +26,7 @@ public class JPModelo extends javax.swing.JPanel {
      *
      * @param ClaEnergetica, una enumeración de la clasificación energética de
      * todos los modelos.
+     *
      */
     private enum ClaEnergetica {
         A, B, C, D, E, F, G, NA
@@ -37,6 +37,7 @@ public class JPModelo extends javax.swing.JPanel {
     private JFPrincipal jPrincipal;
     private JPConsulta jPConsultaMod;
     private JPModelo jPModelo;
+
     public JPModelo() {
         initComponents();
         try {
@@ -266,18 +267,26 @@ public class JPModelo extends javax.swing.JPanel {
         jPanel1.getAccessibleContext().setAccessibleName("");
         jPanel1.getAccessibleContext().setAccessibleDescription("");
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+     * Método jbConsultarActionPerformed.
+     *
+     * Al pulsar el botón se abre el panel Consultar.
+     *
+     * @param evt
+     */
     private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
 
-        jPrincipal = (JFPrincipal)SwingUtilities.getWindowAncestor(this);
-        //System.out.println(jPrincipal.getName());
+        jPrincipal = (JFPrincipal) SwingUtilities.getWindowAncestor(this);
         jPConsultaMod = new JPConsulta();
-        cambiarPanel(jPConsultaMod);       
+        cambiarPanel(jPConsultaMod);
     }//GEN-LAST:event_jbConsultarActionPerformed
-/**
- * Al pulsar el botón muesta el último modelo de la base de datos.
- * @param evt 
- */
+    /**
+     * Método jbUltimoActionPerformed.
+     *
+     * Al pulsar el botón muesta el último modelo de la base de datos.
+     *
+     * @param evt
+     */
     private void jbUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbUltimoActionPerformed
 
         try {
@@ -285,12 +294,16 @@ public class JPModelo extends javax.swing.JPanel {
             cargarDatos(pos);
         } catch (Exception ex) {
             showDialog(ex.getMessage());
+
         }
     }//GEN-LAST:event_jbUltimoActionPerformed
-/**
- * Al pulsar el botón muestra el siguiente modelo de la base de datos.
- * @param evt 
- */
+    /**
+     * Método jbSiguienteActionPerformed.
+     *
+     * Al pulsar el botón muestra el siguiente modelo de la base de datos.
+     *
+     * @param evt
+     */
     private void jbSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSiguienteActionPerformed
 
         pos++;
@@ -301,12 +314,16 @@ public class JPModelo extends javax.swing.JPanel {
             cargarDatos(pos);
         } catch (Exception ex) {
             showDialog(ex.getMessage());
+
         }
     }//GEN-LAST:event_jbSiguienteActionPerformed
-/**
- * Al pulsar el botón muesta el primer modelo de la base de datos.
- * @param evt 
- */
+    /**
+     * Método jbPrimeroActionPerformed.
+     *
+     * Al pulsar el botón muesta el primer modelo de la base de datos.
+     *
+     * @param evt
+     */
     private void jbPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPrimeroActionPerformed
         try {
             cargarDatos(0);
@@ -314,10 +331,13 @@ public class JPModelo extends javax.swing.JPanel {
             showDialog(ex.getMessage());
         }
     }//GEN-LAST:event_jbPrimeroActionPerformed
-/**
- * Al pulsar el botón muestra el modelo anterior al actual.
- * @param evt 
- */
+    /**
+     * Método jbAnteriorActionPerformed.
+     *
+     * Al pulsar el botón muestra el modelo anterior al actual.
+     *
+     * @param evt
+     */
     private void jbAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAnteriorActionPerformed
         pos--;
         try {
@@ -331,10 +351,14 @@ public class JPModelo extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jbAnteriorActionPerformed
-/**
- * Cuando pulsamos Enter este evento hace se desplace al indice de Modelo que le hemos indicado.
- * @param evt 
- */
+    /**
+     * Método jftIdKeyPressed.
+     *
+     * Cuando pulsamos Enter este evento hace se desplace al indice de Modelo
+     * que le hemos indicado.
+     *
+     * @param evt
+     */
     private void jftIdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jftIdKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
@@ -346,7 +370,7 @@ public class JPModelo extends javax.swing.JPanel {
                     pos = gm.buscarTodosModelos().size() - 1;
                 }
                 cargarDatos(pos);
-            } catch (NumberFormatException excepcion) {
+            } catch (NumberFormatException ex) {
                 showDialog(EXC_MENSG6);
             } catch (Exception ex) {
                 showDialog(ex.getMessage());
@@ -354,10 +378,14 @@ public class JPModelo extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jftIdKeyPressed
-/**
- * Este método Limpia las las cajas de texto preparando asi el formulario para poder añadir un modelo nuevo.
- * @param evt 
- */
+    /**
+     * Método jbNuevoActionPerformed.
+     *
+     * Este método Limpia las las cajas de texto preparando asi el formulario
+     * para poder añadir un modelo nuevo.
+     *
+     * @param evt
+     */
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
         try {
             limpiarTodo();
@@ -366,6 +394,8 @@ public class JPModelo extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jbNuevoActionPerformed
     /**
+     * Método jbSalvarActionPerformed.
+     *
      * Añade un Modelo nuevo si no existe ese modelo en la base de datos o
      * actualiza dicho modelo si existe.
      *
@@ -402,7 +432,7 @@ public class JPModelo extends javax.swing.JPanel {
                     cargarDatos(pos);
                 }
             }
-        } catch (NumberFormatException excepcion) {
+        } catch (NumberFormatException ex) {
             showDialog(EXC_MENSG6);
         } catch (NullPointerException ex) {
             showDialog(EXC_MENSG13);
@@ -411,10 +441,14 @@ public class JPModelo extends javax.swing.JPanel {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_jbSalvarActionPerformed
-/**
- * Al pulsar el boton Borra el Modelo que esta activo. Aunque antes pregunta al Usuario si desea hacerlo.
- * @param evt 
- */
+    /**
+     * Método jbBorrarActionPerformed.
+     *
+     * Al pulsar el boton Borra el Modelo que esta activo. Aunque antes pregunta
+     * al Usuario si desea hacerlo.
+     *
+     * @param evt
+     */
     private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
         int _id = 0;
         if (!jftId.getText().equals("")) {
@@ -422,21 +456,22 @@ public class JPModelo extends javax.swing.JPanel {
         }
         if (_id != 0) {
             try {
-               if (preguntarUsuarioSioNo(EXC_MENSG11, EXC_MENSG12)) { 
+                if (preguntarUsuarioSioNo(EXC_MENSG11, EXC_MENSG12)) {
                     gm.borrarModelo(_id);
-               }
-           
+                }
+
             } catch (Exception ex) {
                 showDialog(ex.getMessage());
-            }finally{
-                cargarDatos(pos-1);
+            } finally {
+                cargarDatos(pos - 1);
             }
         }
     }//GEN-LAST:event_jbBorrarActionPerformed
     /**
      * Método preguntarUsuarioSioNo
-     * 
+     *
      * Este método lanza una pregunta con dos posibles respuestas, sí o no.
+     *
      * @param texto1 La pregunta que desea realizar
      * @param texto2 La acción a realizar
      * @return OK_OPTION : True o False.
@@ -491,7 +526,7 @@ public class JPModelo extends javax.swing.JPanel {
             String marca = gma.buscarIdMarca(modelos.get(_id).getIdMarca());
             jcbMarcas.setSelectedItem(marca);
         } catch (Exception ex) {
-            showDialog(ex.getMessage());
+            showDialog(EXC_MENSG1);
         }
 
     }
@@ -528,21 +563,25 @@ public class JPModelo extends javax.swing.JPanel {
             jcbMarcas.setModel(macm);
             jcbMarcas.setSelectedIndex(0);
         } catch (Exception ex) {
-            showDialog(ex.getMessage());
+
+            showDialog(EXC_MENSG1);
         }
 
     }
+
     /**
      * Método cambiarPanel
-     * 
+     *
      * Este método lo que hace es añadir el panel que le hemos pasado.
-     * @param panel: Panel que queremos que visualice. 
+     *
+     * @param panel: Panel que queremos que visualice.
      */
     private void cambiarPanel(JPanel panel) {
-        
+
         jPrincipal.jPanelSecundario.removeAll();
         jPrincipal.jPanelSecundario.add(panel);
         jPrincipal.jPanelSecundario.revalidate();
         jPrincipal.jPanelSecundario.repaint();
     }
+
 }

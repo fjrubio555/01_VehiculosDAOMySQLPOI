@@ -6,11 +6,14 @@
 package tz.franrubio.vehiculos.persistencia;
 
 /**
+ * Clase ConsultaSQL
  *
- * @author xXx
+ * Esta clase intenta ser homogeniezar diferentes consulta Sql.
+ *
+ * @author Francisco J. Rubio
  */
 public class ConsultaSQL {
-    
+
     private String campo1;
     private String campo2;
     private String campo3;
@@ -19,7 +22,7 @@ public class ConsultaSQL {
     private String campo6;
 
     public ConsultaSQL(String campo1, String campo2, String campo3, String campo4, String campo5, String campo6) {
-        
+
         this.campo1 = campo1;
         this.campo2 = campo2;
         this.campo3 = campo3;
@@ -67,7 +70,7 @@ public class ConsultaSQL {
     public void setCampo5(String campo5) {
         this.campo5 = campo5;
     }
-    
+
     public String getCampo6() {
         return campo6;
     }

@@ -18,6 +18,7 @@ import tz.franrubio.vehiculos.model.Modelo;
  */
 public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
 
+    //Constantes con los diferentes mensajes de error.
     public static final String EXC_MENSG1 = "No se ha establecido conexión con la base de datos.";
     public static final String EXC_MENSG2 = "El modelo ya existe en la base de datos.";
     public static final String EXC_MENSG3 = "Error en la base de datos.";
@@ -31,8 +32,9 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
     public static final String EXC_MENSG11 = "¿Desea eliminar el registro actual?";
     public static final String EXC_MENSG12 = "Eliminar";
     public static final String EXC_MENSG13 = "No puede haber cambos vacios.";
+
     /**
-     * addModelo
+     * Sobreescritua del método addModelo
      *
      * Añade un modelo nuevo a la base de datos sino existe.
      *
@@ -61,7 +63,7 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
                 ps.setFloat(4, modelo.getEmisionesModelo());
                 ps.setString(5, modelo.getClaEner().trim());
                 ps.execute();
-                
+
             } else {
                 throw new Exception(EXC_MENSG2);
             }
@@ -69,16 +71,20 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
             throw new Exception(EXC_MENSG1);
         } catch (SQLException ex) {
             ErroresBasedatos(ex);
-        }finally{
+        } finally {
             this.closeConexion();
         }
 
     }
 
     /**
-     * deleteModelo Borra un registro de la base de datos.
+     * Sobreescritura del método deleteModelo
+     *
+     * Elimina un registro de la tabla modelo de la base de datos.
      *
      * @param id: Identificador el registro a borrar.
+     * @throws Exception
+     *
      */
     @Override
     public void deleteModelo(int id) throws Exception {
@@ -93,7 +99,7 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
             throw new Exception(EXC_MENSG1);
         } catch (SQLException ex) {
             ErroresBasedatos(ex);
-        }finally{
+        } finally {
             this.closeConexion();
         }
         if (ModeloBorrado == 0) {
@@ -101,29 +107,41 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
         }
 
     }
+
+    /**
+     * Sobreescritura del Método updateModelo.
+     *
+     * Este método actualiza los datos de un Modelo.
+     *
+     * @param modelo
+     * @throws Exception
+     */
     @Override
-    public void updateModelo(Modelo modelo) throws Exception{
+    public void updateModelo(Modelo modelo) throws Exception {
         try {
             this.openConexion();
             String sql = "UPDATE MODELOS SET ID_MARCA=?, MODELO=?, CONSUMO=?, EMISIONES=?, C_ENERGETICA=? WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1,modelo.getIdMarca());
+            ps.setInt(1, modelo.getIdMarca());
             ps.setString(2, modelo.getNombreModelo());
             ps.setFloat(3, modelo.getConsumoModelo());
             ps.setFloat(4, modelo.getEmisionesModelo());
-            ps.setString(5,modelo.getClaEner());
-            ps.setInt(6,modelo.getId());
+            ps.setString(5, modelo.getClaEner());
+            ps.setInt(6, modelo.getId());
             ps.executeUpdate();
         } catch (ClassNotFoundException ex) {
             throw new Exception(EXC_MENSG1);
         } catch (SQLException ex) {
             ErroresBasedatos(ex);
-        }finally{
+        } finally {
             this.closeConexion();
         }
     }
+
     /**
-     * findIdMarca Hace una busqueda de todos los modelos de una marca concreta
+     * Sobreescritura del método findIdMarca.
+     *
+     * Hace una busqueda de todos los modelos de una marca concreta
      *
      * @param idMarca
      * @return modelos
@@ -148,43 +166,60 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
             throw new Exception(EXC_MENSG1);
         } catch (SQLException ex) {
             ErroresBasedatos(ex);
-        }finally{
+        } finally {
             this.closeConexion();
         }
         return modelos;
     }
 
+    /**
+     * Sobreescritura del método findAllModelo.
+     *
+     * Busca todos los registros de la tabla modelos y los devuelve.
+     *
+     * @return Devuelve todos los modelos.
+     * @throws Exception
+     */
     @Override
-    public List<Modelo> findAllModelo() throws Exception{
+    public List<Modelo> findAllModelo() throws Exception {
         List<Modelo> modelos = new ArrayList<>();
         Modelo modelo = null;
-        
+
         try {
             this.openConexion();
             String sql = "SELECT * FROM MODELOS";
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            while (rs.next()){
-                modelo = new Modelo (rs.getInt("ID"),rs.getInt("ID_MARCA"),rs.getString("MODELO"),rs.getFloat("CONSUMO"),rs.getFloat("EMISIONES"),rs.getString("C_ENERGETICA"));
+            while (rs.next()) {
+                modelo = new Modelo(rs.getInt("ID"), rs.getInt("ID_MARCA"), rs.getString("MODELO"), rs.getFloat("CONSUMO"), rs.getFloat("EMISIONES"), rs.getString("C_ENERGETICA"));
                 modelos.add(modelo);
             }
         } catch (ClassNotFoundException ex) {
             throw new Exception(EXC_MENSG1);
         } catch (SQLException ex) {
             ErroresBasedatos(ex);
-        }finally{
+        } finally {
             this.closeConexion();
         }
         return modelos;
     }
 
+    /**
+     * Método ErroresBasedatos
+     *
+     * Este método recoge erroes SQL y lanza una excepción con un mensaje
+     * concreto.
+     *
+     * @param e
+     * @throws Exception
+     */
     public static void ErroresBasedatos(SQLException e) throws Exception {
-       e.printStackTrace();
+        e.printStackTrace();
 
         switch (e.getErrorCode()) {
             case 0:
                 throw new Exception(EXC_MENSG1);
-                
+
             default:
                 throw new Exception(EXC_MENSG3);
         }

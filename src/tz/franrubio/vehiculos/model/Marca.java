@@ -1,11 +1,12 @@
-
 package tz.franrubio.vehiculos.model;
 
 /**
- *Clase Marca.
+ * Clase Marca.
+ *
  * @author Francisco J. Rubio
  */
 public class Marca {
+
     private int id;
     private String marca;
 
@@ -29,6 +30,5 @@ public class Marca {
     public void setMarca(String Marca) {
         this.marca = Marca;
     }
-    
-    
+
 }

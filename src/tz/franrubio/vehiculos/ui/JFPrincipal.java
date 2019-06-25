@@ -1,4 +1,3 @@
-
 package tz.franrubio.vehiculos.ui;
 
 import java.awt.BorderLayout;
@@ -6,26 +5,27 @@ import java.awt.CardLayout;
 import javax.swing.JPanel;
 
 /**
- * JFrame JFPrincipal
- * Panel Princiapal 
+ * JFrame JFPrincipal Panel Princiapal
+ *
  * @author Francisco J. Rubio
  */
 public class JFPrincipal extends javax.swing.JFrame {
 
     /**
      * Creación de un nuevo formulario JFPrincipal
-     * 
+     *
      * jpModelo el panel de los modelos de vehículos.
      */
     private JPModelo jpModelos;
     private JPConsulta jpConsulta;
     private JPMarcas jpMarcas;
+
     public JFPrincipal() {
         initComponents();
-        setTitle ("Vehículos_v_2.0"); //Titulo de la aplicación princiapl
-        setBounds(600,200,720,420); //Posición y tamaño de la ventana.
-        this.setResizable(false);
-        getContentPane().add(jPanelSecundario,BorderLayout.CENTER);
+        setTitle("Vehículos_v_1.0"); //Titulo de la aplicación princiapl
+        setBounds(600, 200, 720, 420); //Posición y tamaño de la ventana.
+        this.setResizable(false); //No se puede redimensionar el Frame
+        getContentPane().add(jPanelSecundario, BorderLayout.CENTER); //Añadimos el Panel Secuandario al centro.
     }
 
     /**
@@ -133,30 +133,54 @@ public class JFPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     /**
+     * Método jbModeloActionPerformed.
+     *
      * Cuando pulsa el botón de Modelos aparece el panel de Modelos.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jbModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModeloActionPerformed
-            //((CardLayout)(jPanelSecundario.getLayout())).show(jPanelSecundario,"PanelModelo");
-            jpModelos = new JPModelo();
-            cambiarPanel(jpModelos);
+        jpModelos = new JPModelo();
+        cambiarPanel(jpModelos);
     }//GEN-LAST:event_jbModeloActionPerformed
-
+    /**
+     * MétodojbMarcasActionPerformed.
+     *
+     * Cuando pulsa el botón de Marcas aparece el panel de Marcas.
+     *
+     * @param evt
+     */
     private void jbMarcasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMarcasActionPerformed
         jpMarcas = new JPMarcas();
         cambiarPanel(jpMarcas);
     }//GEN-LAST:event_jbMarcasActionPerformed
-
+    /**
+     * Método jbSalirActionPerformed.
+     *
+     * Cierra la aplicación.
+     *
+     * @param evt
+     */
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jbSalirActionPerformed
-
+    /**
+     * Método jbConsultarActionPerformed.
+     *
+     * Cuando pulsa el botón de Consulta parece el panel de Consultas.
+     *
+     * @param evt
+     */
     private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
         jpConsulta = new JPConsulta();
         cambiarPanel(jpConsulta);
     }//GEN-LAST:event_jbConsultarActionPerformed
 
     /**
+     * Método Principal.
+     *
+     * Abre un hilo donde hace visible el Frame Principal de la Aplicación.
+     *
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -199,31 +223,20 @@ public class JFPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jbModelo;
     private javax.swing.JButton jbSalir;
     // End of variables declaration//GEN-END:variables
-    
+
     /**
-     * Métido cambiarPanel: Añade un panel, primero borra todo el contenedor, luego añade y por último repinta el panel.
+     * Métido cambiarPanel:
+     *
+     * Añade un panel, primero borra todo el contenedor, luego añade y por
+     * último repinta el panel.
+     *
      * @param panel: Panel que deseamos añadir
      */
     public void cambiarPanel(JPanel panel) {
-        
+
         jPanelSecundario.removeAll();
         jPanelSecundario.add(panel, BorderLayout.CENTER);
         jPanelSecundario.revalidate();
         jPanelSecundario.repaint();
-       
-        
-     
-       
-       
-    }
-    public void cargarFormulario(){
-        //removeAll();
-        //setLayout(new BorderLayout());
-        //getContentPane().add(jpConsulta,BorderLayout.CENTER);
-        //getContentPane().add(jpModelos,BorderLayout.CENTER);
-        getContentPane().add(jPanelSecundario,BorderLayout.CENTER);
-        getContentPane().add(jPanelBotones,BorderLayout.WEST);
-        revalidate();
-        repaint();
     }
 }

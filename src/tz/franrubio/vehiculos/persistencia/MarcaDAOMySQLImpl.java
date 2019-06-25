@@ -50,7 +50,7 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
             throw new Exception(EXC_MENSG1);
         } catch (SQLException ex) {
             ErroresBasedatos(ex);
-        }finally{
+        } finally {
             this.closeConexion();
         }
     }
@@ -78,7 +78,7 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
             throw new Exception(EXC_MENSG1);
         } catch (SQLException ex) {
             ErroresBasedatos(ex);
-        }finally{
+        } finally {
             this.closeConexion();
         }
         if (MarcaBorrado == 0) {
@@ -115,7 +115,7 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
             throw new Exception(EXC_MENSG1);
         } catch (SQLException ex) {
             ErroresBasedatos(ex);
-        }finally{
+        } finally {
             this.closeConexion();
         }
         return marcas;
@@ -150,7 +150,7 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
             throw new Exception(EXC_MENSG1);
         } catch (SQLException ex) {
             ErroresBasedatos(ex);
-        }finally{
+        } finally {
             this.closeConexion();
         }
 
@@ -164,8 +164,8 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
      *
      * Dado un identificador actualiza los cambios.
      *
-     * @param _id: Identificador de la marca de la base de datos.
-     * @throws Exception
+     * @param _marca Identificador de la marca de la base de datos.
+     * @throws Exception 
      */
     @Override
     public void updateMarca(Marca _marca) throws Exception {
@@ -177,12 +177,12 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
             ps.setString(1, _marca.getMarca());
             ps.setInt(2, _marca.getId());
             ps.executeUpdate();
-            
+
         } catch (ClassNotFoundException ex) {
             throw new Exception(EXC_MENSG1);
         } catch (SQLException ex) {
             ErroresBasedatos(ex);
-        }finally{
+        } finally {
             this.closeConexion();
         }
 
