@@ -7,6 +7,8 @@ import javax.swing.JPanel;
  * JFrame JFPrincipal Panel Princiapal
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class JFPrincipal extends javax.swing.JFrame {
 
@@ -230,7 +232,7 @@ public class JFPrincipal extends javax.swing.JFrame {
      * Añade un panel, primero borra todo el contenedor, luego añade y por
      * último repinta el panel.
      *
-     * @param panel: Panel que deseamos añadir
+     * @param panel Panel que deseamos añadir
      */
     public void cambiarPanel(JPanel panel) {
 

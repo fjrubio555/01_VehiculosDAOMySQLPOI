@@ -14,10 +14,12 @@ import static tz.franrubio.vehiculos.persistencia.ModeloDAOMySQLImpl.*;
  * uno nuevo, borrar y actualizar una marca.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class JPMarcas extends javax.swing.JPanel {
 
-    /**
+    /*
      * Carga del panel Marcas
      */
     private GestorMarca gma = new GestorMarca();
@@ -435,7 +437,7 @@ public class JPMarcas extends javax.swing.JPanel {
      * Carga los datos de la tabla Marcas de la base de datos en los componentes
      * del Panel.
      *
-     * @param _id
+     * @param _id Identificador de la Marca
      */
     private void cargarDatos(int _id) {
         try {

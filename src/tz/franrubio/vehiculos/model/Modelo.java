@@ -7,6 +7,8 @@ package tz.franrubio.vehiculos.model;
  * Clase Modelo.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class Modelo {
 
@@ -17,6 +19,16 @@ public class Modelo {
     private float emisionesModelo;
     private String claEner;
 
+    /**
+     * Constructor Modelo
+     *
+     * @param id Identificador del modelo.
+     * @param idMarca Identificador de la marca.
+     * @param nombreModelo Nombre del modelo.
+     * @param consumoModelo Consumo del modelo.
+     * @param emisionesModelo Emisiones del modelo.
+     * @param claEner Clasificación energética del modelo.
+     */
     public Modelo(int id, int idMarca, String nombreModelo, float consumoModelo, float emisionesModelo, String claEner) {
         this.id = id;
         this.idMarca = idMarca;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tz.franrubio.vehiculos.persistencia;
 
 import java.util.ArrayList;
@@ -15,6 +10,8 @@ import tz.franrubio.vehiculos.model.Marca;
  * concreta y guardar una Marca.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public interface MarcaDAO {
 

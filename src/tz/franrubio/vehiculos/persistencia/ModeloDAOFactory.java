@@ -5,6 +5,8 @@ package tz.franrubio.vehiculos.persistencia;
  * actual de MySql.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class ModeloDAOFactory {
 

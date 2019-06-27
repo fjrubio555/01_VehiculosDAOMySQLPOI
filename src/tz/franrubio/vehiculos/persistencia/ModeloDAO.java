@@ -10,6 +10,8 @@ import tz.franrubio.vehiculos.model.Modelo;
  * todos los Modelos. Guardar/Salvar un Modelo.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public interface ModeloDAO {
 

@@ -15,6 +15,8 @@ import tz.franrubio.vehiculos.model.Modelo;
  * adicionales del ModeloDAO.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
 
@@ -38,8 +40,8 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
      *
      * Añade un modelo nuevo a la base de datos sino existe.
      *
-     * @param modelo
-     * @throws Exception
+     * @param modelo Modelo de Vehiculo.
+     * @throws Exception Error general.
      */
     @Override
     public void addModelo(Modelo modelo) throws Exception {
@@ -83,7 +85,7 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
      * Elimina un registro de la tabla modelo de la base de datos.
      *
      * @param id: Identificador el registro a borrar.
-     * @throws Exception
+     * @throws Exception Error general.
      *
      */
     @Override
@@ -113,8 +115,8 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
      *
      * Este método actualiza los datos de un Modelo.
      *
-     * @param modelo
-     * @throws Exception
+     * @param modelo Modelo de Vehículo.
+     * @throws Exception Error general.
      */
     @Override
     public void updateModelo(Modelo modelo) throws Exception {
@@ -143,9 +145,9 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
      *
      * Hace una busqueda de todos los modelos de una marca concreta
      *
-     * @param idMarca
-     * @return modelos
-     * @throws Exception
+     * @param idMarca Identificador de la marca.
+     * @return modelos Listado de modelos cuya marca coincide con la indicada.
+     * @throws Exception Error general.
      */
     @Override
     public List<Modelo> findIdMarca(int idMarca) throws Exception {
@@ -178,7 +180,7 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
      * Busca todos los registros de la tabla modelos y los devuelve.
      *
      * @return Devuelve todos los modelos.
-     * @throws Exception
+     * @throws Exception Error general.
      */
     @Override
     public List<Modelo> findAllModelo() throws Exception {
@@ -210,8 +212,8 @@ public class ModeloDAOMySQLImpl extends BBDDManager implements ModeloDAO {
      * Este método recoge erroes SQL y lanza una excepción con un mensaje
      * concreto.
      *
-     * @param e
-     * @throws Exception
+     * @param e Error de Sql de la ha dado la base de datos.
+     * @throws Exception Error general.
      */
     public static void ErroresBasedatos(SQLException e) throws Exception {
         e.printStackTrace();

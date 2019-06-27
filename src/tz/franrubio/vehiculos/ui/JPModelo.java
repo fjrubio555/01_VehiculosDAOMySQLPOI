@@ -18,13 +18,15 @@ import static tz.franrubio.vehiculos.persistencia.ModeloDAOMySQLImpl.*;
  * uno nuevo, borrar, actualizar y hacer determinadas busquedas.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class JPModelo extends javax.swing.JPanel {
 
-    /**
+    /*
      * Carga el Panel de los Modelos.
      *
-     * @param ClaEnergetica, una enumeración de la clasificación energética de
+     * ClaEnergetica, una enumeración de la clasificación energética de
      * todos los modelos.
      *
      */
@@ -512,6 +514,7 @@ public class JPModelo extends javax.swing.JPanel {
      * Método cagarDatos.
      *
      * Carga los datos de la tabla Modelos de la base de datos.
+     * @param _id Identificador del modelo.
      */
     private void cargarDatos(int _id) {
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tz.franrubio.vehiculos.persistencia;
 
 /**
@@ -12,6 +7,8 @@ package tz.franrubio.vehiculos.persistencia;
  * caso va ser una base de datos.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class MarcaDAOFactory {
 

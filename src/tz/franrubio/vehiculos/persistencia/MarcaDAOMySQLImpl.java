@@ -1,13 +1,10 @@
 package tz.franrubio.vehiculos.persistencia;
 
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import tz.franrubio.vehiculos.model.Marca;
 import static tz.franrubio.vehiculos.persistencia.ModeloDAOMySQLImpl.*;
 
@@ -18,6 +15,8 @@ import static tz.franrubio.vehiculos.persistencia.ModeloDAOMySQLImpl.*;
  * adicionales de la MarcaDAO.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
 
@@ -26,8 +25,8 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
      *
      * Añade una marca nueva a la base de datos sino existe.
      *
-     * @param _marca
-     * @throws Exception
+     * @param _marca Marca de un modelo.
+     * @throws Exception Error general.
      */
     @Override
     public void addMarca(Marca _marca) throws Exception {
@@ -60,8 +59,8 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
      *
      * Elimina una marca de la base de datos.
      *
-     * @param _id
-     * @throws Exception
+     * @param _id Identificador de la marca.
+     * @throws Exception Error general.
      */
     @Override
     public void deleteMarca(int _id) throws Exception {
@@ -93,9 +92,9 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
      * a un array.
      *
      *
-     * @return mascas Array con todas la tabla marcas
+     * @return mascas Array con todas la tabla marcas.
      * @throws ClassNotFoundException Errores de conexion.
-     * @throws SQLException Errores de base de datos
+     * @throws SQLException Errores de base de datos.
      */
     @Override
     public ArrayList<Marca> getAllMarca() throws Exception {
@@ -127,9 +126,9 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
      * Dado un identifiador seleccionar una marca concreta de la tabla marcas de
      * la base de datos.
      *
-     * @param _id Identificador de la tabla marcas de la base de datos
-     * @return marca
-     * @throws Exception
+     * @param _id Identificador de la tabla marcas de la base de datos.
+     * @return Una marca.
+     * @throws Exception Error general.
      */
     @Override
     public String findIdMarca(int _id) throws Exception {
@@ -165,7 +164,7 @@ public class MarcaDAOMySQLImpl extends BBDDManager implements MarcaDAO {
      * Dado un identificador actualiza los cambios.
      *
      * @param _marca Identificador de la marca de la base de datos.
-     * @throws Exception 
+     * @throws Exception Error general.
      */
     @Override
     public void updateMarca(Marca _marca) throws Exception {

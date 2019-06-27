@@ -11,7 +11,8 @@ import tz.franrubio.vehiculos.model.Marca;
  * descargue todos las marcas de los modelos de vehículos en un comboBox.
  *
  * @author Francisco J. Rubio
- *
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class MarcasDefaultComboxModel extends DefaultComboBoxModel {
 

@@ -13,6 +13,8 @@ import tz.franrubio.vehiculos.persistencia.ConsultaSQL;
  * Valmos a sobreescribir las metodos de la interfaz TableModel con datos de nuestra consulta sql.
  * 
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class ConsultaTableModel implements TableModel{
       private List<ConsultaSQL> listaConsulta;

@@ -8,6 +8,8 @@ import tz.franrubio.vehiculos.persistencia.MarcaDAOFactory;
  * Clase GestorMarca Implimenta los métodos de la clase Marca.
  *
  * @author Francisco J. Rubio.
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class GestorMarca {
 
@@ -21,8 +23,8 @@ public class GestorMarca {
     /**
      * Método anyadirMarca Implementa el método de añadir una nueva marca.
      *
-     * @param _marca
-     * @throws Exception
+     * @param _marca Marca del modelo.
+     * @throws Exception Error en general
      */
     public void anyadirMarca(Marca _marca) throws Exception {
         impl.addMarca(_marca);
@@ -31,8 +33,8 @@ public class GestorMarca {
     /**
      * Método borrarMarca Implementa el método de borrar una marca.
      *
-     * @param _id
-     * @throws Exception
+     * @param _id Identificador de la marca a borrar.
+     * @throws Exception Error en general
      */
     public void borrarMarca(int _id) throws Exception {
         impl.deleteMarca(_id);
@@ -41,9 +43,8 @@ public class GestorMarca {
     /**
      * Método getAllMarcas Implementa el método de recoger todos las marcas.
      *
-     * @return Listado de todas las marcas de la base de datos.
-     * @throws Exception
-     * @return Lista con todas marcas.
+     * @return Listado de todas las marcas de la tabla de la base de datos.
+     * @throws Exception Error en general
      */
     public ArrayList<Marca> getAllMarcas() throws Exception {
         return impl.getAllMarca();
@@ -55,8 +56,7 @@ public class GestorMarca {
      *
      * @param _id: Identificador de la marca
      * @return El nombre de la marca que coincide con ese identificador.
-     * @throws Exception
-     * @return Una cadena de texto conel nombre de la marca.
+     * @throws Exception Error en general
      */
     public String buscarIdMarca(int _id) throws Exception {
         return impl.findIdMarca(_id);
@@ -66,8 +66,8 @@ public class GestorMarca {
      * Métido updateMarca Implementa el método updateMarca que actualiza los
      * datos de una marca en la base de datos.
      *
-     * @param _marca: Una marca.
-     * @throws Exception
+     * @param _marca: Marca de un modelo.
+     * @throws Exception Error en general
      */
     public void guardarMarca(Marca _marca) throws Exception {
         impl.updateMarca(_marca);

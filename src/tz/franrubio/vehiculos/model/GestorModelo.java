@@ -8,6 +8,8 @@ import tz.franrubio.vehiculos.persistencia.ModeloDAO;
  * Clase GestorModelo Implimenta los métodos de la clase Modelo.
  *
  * @author Francisco J. Rubio.
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class GestorModelo {
 
@@ -21,8 +23,8 @@ public class GestorModelo {
     /**
      * Método anyadirModelo Implementa el método de añadir una nuevo modelo.
      *
-     * @param _modelo
-     * @throws Exception
+     * @param _modelo Modelo de vehiculo.
+     * @throws Exception Error en general
      */
     public void anyadirModelo(Modelo _modelo) throws Exception {
         impl.addModelo(_modelo);
@@ -32,7 +34,7 @@ public class GestorModelo {
      * Método borrarModelo Implementa el método de borrar un una modelo.
      *
      * @param _id: Número que identifica a un modelo.
-     * @throws Exception
+     * @throws Exception Error en general
      */
     public void borrarModelo(int _id) throws Exception {
         impl.deleteModelo(_id);
@@ -43,7 +45,7 @@ public class GestorModelo {
      * marca concreta.
      *
      * @param _idMarca: Número que identifica a una marca.
-     * @throws Exception
+     * @throws Exception Error en general
      * @return Una Lista de Modelo de un marca concreta.
      */
     public List<Modelo> buscarPorMarca(int _idMarca) throws Exception {
@@ -54,7 +56,7 @@ public class GestorModelo {
      * Método buscarTodosModelos Implementa el método de buscar todos los
      * modelos.
      *
-     * @throws Exception
+     * @throws Exception Error en general
      * @return Una Lista de Modelos.
      */
     public List<Modelo> buscarTodosModelos() throws Exception {
@@ -62,13 +64,12 @@ public class GestorModelo {
     }
 
     /**
-     * Método guardarModelo 
-     * 
-     * Implementa el método de guardar los datos de un
-     * modelo.
-     * 
-     * @param _modelo
-     * @throws Exception 
+     * Método guardarModelo
+     *
+     * Implementa el método de guardar los datos de un modelo.
+     *
+     * @param _modelo Modelo de vehiculo.
+     * @throws Exception Error en general
      */
     public void guardarModelo(Modelo _modelo) throws Exception {
         impl.updateModelo(_modelo);

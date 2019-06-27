@@ -11,6 +11,8 @@ package tz.franrubio.vehiculos.persistencia;
  * Esta clase intenta ser homogeniezar diferentes consulta Sql.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class ConsultaSQL {
 
@@ -21,6 +23,16 @@ public class ConsultaSQL {
     private String campo5;
     private String campo6;
 
+    /**
+     * Constructor ConsultaSQL
+     *
+     * @param campo1 Primera campo de la consulta.
+     * @param campo2 Segundo campo de la consulta.
+     * @param campo3 Tercer campo de la consulta.
+     * @param campo4 Cuarto campo de la consulta.
+     * @param campo5 Quinto campo de la consulta.
+     * @param campo6 Sexto campo de la consulta.
+     */
     public ConsultaSQL(String campo1, String campo2, String campo3, String campo4, String campo5, String campo6) {
 
         this.campo1 = campo1;

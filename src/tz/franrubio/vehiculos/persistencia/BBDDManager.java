@@ -15,6 +15,8 @@ import java.sql.SQLException;
  * la conexión a la base de datos MySQL a traves de un fichero properties.
  *
  * @author Francisco J Rubio.
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class BBDDManager {
 
@@ -34,9 +36,9 @@ public class BBDDManager {
      * Contraseña del usuario de la base de datos DRV_OLDBD: Constante. Driver
      * de conexión de Mysql pra versiones anteriores al JDK 6.
      *
-     * @throws ClassNotFoundException
-     * @throws SQLException
-     * @throws IOException
+     * @throws ClassNotFoundException Error que no ha encntrado una clase.
+     * @throws SQLException Error en la sentencia de Sql.
+     * @throws IOException Error de lectura/escritura en un fichero.
      */
     public void openConexion() throws ClassNotFoundException, SQLException, IOException {
         String nombreBD = GestorConfiguracion.getNombreBD();
@@ -52,7 +54,7 @@ public class BBDDManager {
     /**
      * Cierra la conexión con la base de datos.
      *
-     * @throws SQLException
+     * @throws SQLException Error en la sentencia Sql.
      */
     public void closeConexion() throws SQLException {
         con.close();

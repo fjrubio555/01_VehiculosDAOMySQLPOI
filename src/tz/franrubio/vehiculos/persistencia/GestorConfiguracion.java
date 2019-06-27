@@ -1,12 +1,8 @@
 package tz.franrubio.vehiculos.persistencia;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.*;
 import java.util.Properties;
 
 /**
@@ -16,22 +12,28 @@ import java.util.Properties;
  * Esta clase nos indica donde esta el fichero de configuracion.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class GestorConfiguracion {
 
     //Constante donde se encuentra la ruta del fichero properties.
-    //private static final Path PATH_FICHDB = Paths.get(System.getProperty("user.dir") + "/src/tz/franrubio/vehiculos/persistencia/vehiculo.prop");
-    //private static final Path PATH_FICHDB = Paths.get("G:/Documentos/Cice_Campus/Trabajos/Trabajos/01_VehiculosDAOMySQLPOI/build/classes/vehiculo.prop");
-    //URL url= new GestorConfiguracion().getClass().getResourceAsStream("vehiculo.prop");
-    //File f = new File(url.toURI());
-    
-    
-    //private static final Path PATH_FICHDB = Paths.get(url.toURI());
-    private static final String FILE_PROP = "vehiculo.prop";
-    
-    //private static final Path PATH_FICHDB = Paths.get(GestorConfiguracion.class.getClassLoader().getResource("vehiculo.prop").getFile());
-    
+    private static final String FILE_PROP = "/tz/franrubio/vehiculos/persistencia/vehiculo.prop";
     private static Properties p = new Properties();
+
+    //Como el metodo getResourceAsStream puede lanzar una excepcion y no me deja instanciar el fichero en un método estatico.
+    //la carga del fichero propertie se hace de la siguente manera:
+    static {
+        //Busca el fichero en la ruta interna del proyecto.
+        InputStream ficheroprop = GestorConfiguracion.class.getResourceAsStream(FILE_PROP);
+        try {
+            p.load(ficheroprop);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.exit(0);
+        }
+
+    }
 
     /**
      * Método getNombreBD.
@@ -39,18 +41,12 @@ public class GestorConfiguracion {
      * Método que devuelve de fichero properties el nombre de la base de datos.
      *
      * @return Cadena de texto con nombre de la base de datos.
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException Error en un fichero porque lo ha encontrado
+     * en la ruta indicada
+     * @throws IOException Error de Lectura/Escritura de un fichero.
      */
     public static String getNombreBD() throws FileNotFoundException, IOException {
-        //System.out.println(PATH_FICHDB.toString());
-        //String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-       //String appConfigPath = rootPath + "vehiculo.prop";
-        //System.out.println(appConfigPath);
-        System.out.println(GestorConfiguracion.class.getResource(FILE_PROP).getFile());
-        //p.load(new FileInputStream(PATH_FICHDB.toString()));
-        p.load(new FileInputStream(GestorConfiguracion.class.getResource(FILE_PROP).getFile()));
-        //p.load(new FileInputStream(GestorConfiguracion.class.getClassLoader().getResource(FILE_PROP).getFile()));
+
         return p.getProperty("bbdd");
     }
 
@@ -60,13 +56,12 @@ public class GestorConfiguracion {
      * Método que devuelve el puerto de la base de datos.
      *
      * @return Devuelve un enterocon el número del puerto de la base de datos.
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException Error en un fichero porque lo ha encontrado
+     * en la ruta indicada
+     * @throws IOException Error de Lectura/Escritura de un fichero.
      */
     public static int getPortDB() throws FileNotFoundException, IOException {
-        //p.load(new FileInputStream(PATH_FICHDB.toString()));
-        p.load(new FileInputStream(GestorConfiguracion.class.getResource(FILE_PROP).getFile()));
-        //p.load(new FileInputStream(GestorConfiguracion.class.getClassLoader().getResource(FILE_PROP).getFile()));
+
         return Integer.parseInt(p.getProperty("port"));
     }
 
@@ -76,13 +71,12 @@ public class GestorConfiguracion {
      * Método que devuelve la dirección Ip donde esta alojada la base de datos.
      *
      * @return Devuelve una cadena de texto con la dirección IP.
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException Error en un fichero porque lo ha encontrado
+     * en la ruta indicada
+     * @throws IOException Error de Lectura/Escritura de un fichero.
      */
     public static String getHost() throws FileNotFoundException, IOException {
-        //p.load(new FileInputStream(PATH_FICHDB.toString()));
-        p.load(new FileInputStream(GestorConfiguracion.class.getResource(FILE_PROP).getFile()));
-       //p.load(new FileInputStream(GestorConfiguracion.class.getClassLoader().getResource(FILE_PROP).getFile()));
+
         return p.getProperty("host");
     }
 
@@ -94,13 +88,12 @@ public class GestorConfiguracion {
      *
      * @return Devuelve una cadena de texto con el nombre del usuario de la base
      * de datos.
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException Error en un fichero porque lo ha encontrado
+     * en la ruta indicada
+     * @throws IOException Error de Lectura/Escritura de un fichero.
      */
     public static String getUsuario() throws FileNotFoundException, IOException {
-        //p.load(new FileInputStream(PATH_FICHDB.toString()));
-        p.load(new FileInputStream(GestorConfiguracion.class.getResource(FILE_PROP).getFile()));
-        //p.load(new FileInputStream(GestorConfiguracion.class.getClassLoader().getResource(FILE_PROP).getFile()));
+
         return p.getProperty("usu");
     }
 
@@ -111,13 +104,13 @@ public class GestorConfiguracion {
      *
      * @return Devuelve una cadena de texto con la contraseña del usuario de la
      * base de datos.
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException Error en un fichero porque lo ha encontrado
+     * en la ruta indicada
+     * @throws IOException Error de Lectura/Escritura de un fichero.
      */
     public static String getPSW() throws FileNotFoundException, IOException {
-        //p.load(new FileInputStream(PATH_FICHDB.toString()));
-        p.load(new FileInputStream(GestorConfiguracion.class.getResource(FILE_PROP).getFile()));
-        //p.load(new FileInputStream(GestorConfiguracion.class.getClassLoader().getResource(FILE_PROP).getFile()));
+
         return p.getProperty("psw");
     }
+
 }

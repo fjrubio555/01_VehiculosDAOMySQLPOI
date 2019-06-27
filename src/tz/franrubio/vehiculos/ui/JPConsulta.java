@@ -1,6 +1,7 @@
 package tz.franrubio.vehiculos.ui;
 
 import com.convertapi.*;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,10 +29,12 @@ import static tz.franrubio.vehiculos.persistencia.ModeloDAOMySQLImpl.ErroresBase
  * Esta clase muestra la consulta Sql.
  *
  * @author Francisco J. Rubio
+ * @version 1.0
+ * @since 27/06/2018
  */
 public class JPConsulta extends javax.swing.JPanel {
 
-    /**
+    /*
      * Creación del Panel de Consultas.
      */
     private GestorModelo gmC = new GestorModelo();
@@ -335,8 +338,8 @@ public class JPConsulta extends javax.swing.JPanel {
      * documento es convertido en PDF, sino se guardara como Excel.
      *
      * @param bPDF Verdadero o falso.
-     * @throws InterruptedException
-     * @throws ExecutionException
+     * @throws InterruptedException Error de conexión de Internet.
+     * @throws ExecutionException Error en la ejecución del fichero.
      */
     private void CrearExcel(boolean bPDF) throws InterruptedException, ExecutionException {
         //Instanciamos el libro de Excel (.xlsx)
@@ -438,6 +441,7 @@ public class JPConsulta extends javax.swing.JPanel {
             }
 
         }
+        //Hacemos que las columnas se reajusten al tamaño del texto añadido.
         for (int i = 0; i < 5; i++) {
             hoja.autoSizeColumn(i);
         }
@@ -449,6 +453,7 @@ public class JPConsulta extends javax.swing.JPanel {
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
             String fechaExcel = String.valueOf(fechaHora.format(formato));
             String ruta = System.getProperty("user.dir") + System.getProperty("file.separator");
+            
             String carpetaGuardar = ruta + "Informes";
             File carpeta = new File(carpetaGuardar);
             if (!carpeta.exists()) {
@@ -458,7 +463,9 @@ public class JPConsulta extends javax.swing.JPanel {
             String rutafichero = carpetaGuardar + System.getProperty("file.separator") + "Informe" + fechaExcel + ".xlsx";
             FileOutputStream ficheroexcel = new FileOutputStream(rutafichero);
             libroexcel.write(ficheroexcel);
-
+            if (bPDF == false) {
+            Desktop.getDesktop().open(new File(rutafichero));
+            }
             ficheroexcel.close();
             if (bPDF == true) {
                 //Conversor Online de fichero excel a pdf
@@ -466,6 +473,8 @@ public class JPConsulta extends javax.swing.JPanel {
                 ConvertApi.convert("xlsx", "pdf",
                         new Param("File", Paths.get(rutafichero))
                 ).get().saveFilesSync(Paths.get(carpetaGuardar));
+                String ruta_ficheropdf = carpetaGuardar + System.getProperty("file.separator") + "Informe" + fechaExcel + ".pdf";
+                Desktop.getDesktop().open(new File(ruta_ficheropdf));
                 //Borramos el fichero de excel que ya no nos hace falta
                 File ficheroexcel_pdf = new File(rutafichero);
                 ficheroexcel_pdf.delete();
