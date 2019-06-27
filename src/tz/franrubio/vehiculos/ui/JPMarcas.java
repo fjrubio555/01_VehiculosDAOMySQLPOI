@@ -447,6 +447,7 @@ public class JPMarcas extends javax.swing.JPanel {
 
         } catch (Exception ex) {
             showDialog(EXC_MENSG1);
+            System.exit(0);
         }
     }
 

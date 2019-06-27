@@ -1,7 +1,6 @@
 package tz.franrubio.vehiculos.ui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import javax.swing.JPanel;
 
 /**
@@ -21,6 +20,7 @@ public class JFPrincipal extends javax.swing.JFrame {
     private JPMarcas jpMarcas;
 
     public JFPrincipal() {
+        
         initComponents();
         setTitle("Vehículos_v_1.0"); //Titulo de la aplicación princiapl
         setBounds(600, 200, 720, 420); //Posición y tamaño de la ventana.

@@ -300,6 +300,7 @@ public class JPConsulta extends javax.swing.JPanel {
             jTConsulta.removeAll();
         } catch (Exception ex) {
             showDialog(EXC_MENSG1);
+            System.exit(0);
         }
     }//GEN-LAST:event_jrbMarcaActionPerformed
 

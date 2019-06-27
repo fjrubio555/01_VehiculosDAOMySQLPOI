@@ -527,6 +527,7 @@ public class JPModelo extends javax.swing.JPanel {
             jcbMarcas.setSelectedItem(marca);
         } catch (Exception ex) {
             showDialog(EXC_MENSG1);
+            System.exit(0);
         }
 
     }
@@ -565,6 +566,7 @@ public class JPModelo extends javax.swing.JPanel {
         } catch (Exception ex) {
 
             showDialog(EXC_MENSG1);
+            System.exit(0);
         }
 
     }

@@ -1,8 +1,11 @@
 package tz.franrubio.vehiculos.persistencia;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.*;
 import java.util.Properties;
 
@@ -17,8 +20,17 @@ import java.util.Properties;
 public class GestorConfiguracion {
 
     //Constante donde se encuentra la ruta del fichero properties.
-    private static final Path PATH_FICHDB = Paths.get(System.getProperty("user.dir") + "/src/tz/franrubio/vehiculos/persistencia/vehiculo.prop");
-
+    //private static final Path PATH_FICHDB = Paths.get(System.getProperty("user.dir") + "/src/tz/franrubio/vehiculos/persistencia/vehiculo.prop");
+    //private static final Path PATH_FICHDB = Paths.get("G:/Documentos/Cice_Campus/Trabajos/Trabajos/01_VehiculosDAOMySQLPOI/build/classes/vehiculo.prop");
+    //URL url= new GestorConfiguracion().getClass().getResourceAsStream("vehiculo.prop");
+    //File f = new File(url.toURI());
+    
+    
+    //private static final Path PATH_FICHDB = Paths.get(url.toURI());
+    private static final String FILE_PROP = "vehiculo.prop";
+    
+    //private static final Path PATH_FICHDB = Paths.get(GestorConfiguracion.class.getClassLoader().getResource("vehiculo.prop").getFile());
+    
     private static Properties p = new Properties();
 
     /**
@@ -31,8 +43,14 @@ public class GestorConfiguracion {
      * @throws IOException
      */
     public static String getNombreBD() throws FileNotFoundException, IOException {
-
-        p.load(new FileInputStream(PATH_FICHDB.toString()));
+        //System.out.println(PATH_FICHDB.toString());
+        //String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+       //String appConfigPath = rootPath + "vehiculo.prop";
+        //System.out.println(appConfigPath);
+        System.out.println(GestorConfiguracion.class.getResource(FILE_PROP).getFile());
+        //p.load(new FileInputStream(PATH_FICHDB.toString()));
+        p.load(new FileInputStream(GestorConfiguracion.class.getResource(FILE_PROP).getFile()));
+        //p.load(new FileInputStream(GestorConfiguracion.class.getClassLoader().getResource(FILE_PROP).getFile()));
         return p.getProperty("bbdd");
     }
 
@@ -46,7 +64,9 @@ public class GestorConfiguracion {
      * @throws IOException
      */
     public static int getPortDB() throws FileNotFoundException, IOException {
-        p.load(new FileInputStream(PATH_FICHDB.toString()));
+        //p.load(new FileInputStream(PATH_FICHDB.toString()));
+        p.load(new FileInputStream(GestorConfiguracion.class.getResource(FILE_PROP).getFile()));
+        //p.load(new FileInputStream(GestorConfiguracion.class.getClassLoader().getResource(FILE_PROP).getFile()));
         return Integer.parseInt(p.getProperty("port"));
     }
 
@@ -60,7 +80,9 @@ public class GestorConfiguracion {
      * @throws IOException
      */
     public static String getHost() throws FileNotFoundException, IOException {
-        p.load(new FileInputStream(PATH_FICHDB.toString()));
+        //p.load(new FileInputStream(PATH_FICHDB.toString()));
+        p.load(new FileInputStream(GestorConfiguracion.class.getResource(FILE_PROP).getFile()));
+       //p.load(new FileInputStream(GestorConfiguracion.class.getClassLoader().getResource(FILE_PROP).getFile()));
         return p.getProperty("host");
     }
 
@@ -76,7 +98,9 @@ public class GestorConfiguracion {
      * @throws IOException
      */
     public static String getUsuario() throws FileNotFoundException, IOException {
-        p.load(new FileInputStream(PATH_FICHDB.toString()));
+        //p.load(new FileInputStream(PATH_FICHDB.toString()));
+        p.load(new FileInputStream(GestorConfiguracion.class.getResource(FILE_PROP).getFile()));
+        //p.load(new FileInputStream(GestorConfiguracion.class.getClassLoader().getResource(FILE_PROP).getFile()));
         return p.getProperty("usu");
     }
 
@@ -91,7 +115,9 @@ public class GestorConfiguracion {
      * @throws IOException
      */
     public static String getPSW() throws FileNotFoundException, IOException {
-        p.load(new FileInputStream(PATH_FICHDB.toString()));
+        //p.load(new FileInputStream(PATH_FICHDB.toString()));
+        p.load(new FileInputStream(GestorConfiguracion.class.getResource(FILE_PROP).getFile()));
+        //p.load(new FileInputStream(GestorConfiguracion.class.getClassLoader().getResource(FILE_PROP).getFile()));
         return p.getProperty("psw");
     }
 }
