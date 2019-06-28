@@ -478,7 +478,7 @@ public class JPModelo extends javax.swing.JPanel {
      * @param texto2 La acción a realizar
      * @return OK_OPTION : True o False.
      */
-    private boolean preguntarUsuarioSioNo(String texto1, String texto2) {
+    public boolean preguntarUsuarioSioNo(String texto1, String texto2) {
         int n = JOptionPane.showConfirmDialog(
                 this,
                 texto1,

@@ -39,15 +39,20 @@ public class JPConsulta extends javax.swing.JPanel {
      */
     private GestorModelo gmC = new GestorModelo();
     private GestorMarca gmaC = new GestorMarca();
+    private JPModelo jpmodelo = new JPModelo();
     //Constantes de mensaje de Errores..
     private static final String CONS_MENG1 = "Debe elegir algun criterio de consulta";
     private static final String CONS_MENG2 = "Exportada Consulta a Hoja de Cálculo de Excel.";
     private static final String CONS_MENG3 = "Exportada Consulta a PDF.";
     private static final String CONS_SECRETPALABRA = "cD9r4iA6TgyS33L0";
     private static final String CONS_MENG4 = "Conexión de Internet Interrupida";
-    private static final String CONS_MENG5 = "Exportación en PDF cancelada.";
+    private static final String CONS_MENG5 = "Exportación en PDF fallida.";
     private static final String CONS_MENG6 = "Error al acceder al fichero.";
     private static final String CONS_MENG7 = "Debe seleccionar alguna Marca.";
+    private static final String CONS_MENG8 = "¿Desea abrir el fichero?";
+    private static final String CONS_MENG9 = "Abrir fichero.";
+    private static final String CONS_MENG10 = "El fichero se exportará en una carpeta llamada Informes, en la carpeta actual.¿Desea exportar el fichero?";
+    private static final String CONS_MENG11 = "Exportar fichero.";
 
     public JPConsulta() {
         initComponents();
@@ -445,49 +450,84 @@ public class JPConsulta extends javax.swing.JPanel {
         for (int i = 0; i < 5; i++) {
             hoja.autoSizeColumn(i);
         }
-        if (bPDF == false) {
-            bProgreso01.setValue(0);
-        }
+
         try {
             LocalDateTime fechaHora = LocalDateTime.now();
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
             String fechaExcel = String.valueOf(fechaHora.format(formato));
             String ruta = System.getProperty("user.dir") + System.getProperty("file.separator");
-            
             String carpetaGuardar = ruta + "Informes";
+            String ruta_ficheropdf = carpetaGuardar + System.getProperty("file.separator") + "Informe" + fechaExcel + ".pdf";
             File carpeta = new File(carpetaGuardar);
             if (!carpeta.exists()) {
                 //creamos la carpeta si no existe
                 carpeta.mkdir();
             }
+
             String rutafichero = carpetaGuardar + System.getProperty("file.separator") + "Informe" + fechaExcel + ".xlsx";
             FileOutputStream ficheroexcel = new FileOutputStream(rutafichero);
             libroexcel.write(ficheroexcel);
-            if (bPDF == false) {
-            Desktop.getDesktop().open(new File(rutafichero));
-            }
             ficheroexcel.close();
-            if (bPDF == true) {
-                //Conversor Online de fichero excel a pdf
-                Config.setDefaultSecret(CONS_SECRETPALABRA);
-                ConvertApi.convert("xlsx", "pdf",
-                        new Param("File", Paths.get(rutafichero))
-                ).get().saveFilesSync(Paths.get(carpetaGuardar));
-                String ruta_ficheropdf = carpetaGuardar + System.getProperty("file.separator") + "Informe" + fechaExcel + ".pdf";
-                Desktop.getDesktop().open(new File(ruta_ficheropdf));
-                //Borramos el fichero de excel que ya no nos hace falta
-                File ficheroexcel_pdf = new File(rutafichero);
-                ficheroexcel_pdf.delete();
-                showDialog(CONS_MENG3);
+            boolean bExportar = false;
+            if (bPDF == false) {
                 bProgreso01.setValue(0);
-            } else {
-                showDialog(CONS_MENG2);
-            }
+                bExportar = jpmodelo.preguntarUsuarioSioNo(CONS_MENG10, CONS_MENG11);
+                if (bExportar == true) {
+                    showDialog(CONS_MENG2);
+                    if (jpmodelo.preguntarUsuarioSioNo(CONS_MENG8, CONS_MENG9)) {
+                        Desktop.getDesktop().open(new File(rutafichero));
 
+                    }
+                }else{
+                    
+                    File ficheroexcel_temp = new File(rutafichero);
+                    ficheroexcel_temp.delete();
+                }
+
+                
+            } else {
+                //Conversor Online de fichero excel a pdf
+                bExportar = jpmodelo.preguntarUsuarioSioNo(CONS_MENG10, CONS_MENG11);
+                if (bExportar == true) {
+                    crearPDF(rutafichero, carpetaGuardar);
+                    showDialog(CONS_MENG3);
+                    if (jpmodelo.preguntarUsuarioSioNo(CONS_MENG8, CONS_MENG9)) {
+                        Desktop.getDesktop().open(new File(ruta_ficheropdf));
+                    }
+                } else {
+                    File ficheroexcel_temp = new File(rutafichero);
+                    ficheroexcel_temp.delete();
+                }
+                bProgreso01.setValue(0);
+
+            }
+        
         } catch (IOException ex) {
             showDialog(CONS_MENG6);
         }
 
+    }
+
+    /**
+     * Método crearPDF
+     *
+     * Convierte un fichero Excel (*.xlsx) a PDF accediendo a un servicio Web.
+     *
+     * @param rutafichero Ruta del fichero Excel.
+     * @param carpetaGuardar Ruta de la carpeta donde se va a crear el fichero
+     * PDF.
+     * @throws InterruptedException Error de conexión de Internet.
+     * @throws ExecutionException Error en la ejecución en el conversor.
+     * @throws IOException Error de lectura/escritura del archivo.
+     */
+    private void crearPDF(String rutafichero, String carpetaGuardar) throws IOException, InterruptedException, ExecutionException {
+        Config.setDefaultSecret(CONS_SECRETPALABRA);
+        ConvertApi.convert("xlsx", "pdf",
+                new Param("File", Paths.get(rutafichero))
+        ).get().saveFilesSync(Paths.get(carpetaGuardar));
+        //Borramos el fichero de excel que ya no nos hace falta
+        File ficheroexcel_pdf = new File(rutafichero);
+        ficheroexcel_pdf.delete();
     }
 
     /**
